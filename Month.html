@@ -68,9 +68,7 @@ margin:auto;
 .shiftB{background:#e2f5e2}
 .shiftC{background:#fff3cd}
 
-.shiftToday{
-    border:3px solid #f4c430!important;
-}
+
 
 /* ================== UI ================== */
 
@@ -175,6 +173,61 @@ margin:auto;
 .pdf-circle-btn:active{
     transform:scale(.95);
 }
+/* =========================
+   ⭐ نبض اليوم الحالي (حل نهائي)
+========================= */
+
+/* =========================
+   نبض بحجم الخلية — ناعم
+========================= */
+
+.shiftToday{
+    position:relative;
+    overflow:visible;
+    z-index: 1;
+}
+
+/* طبقة النبض */
+.shiftToday::after{
+    content:"";
+    position:absolute;
+    inset:0;                 /* نفس حجم الخلية */
+    border-radius:0px;      /* نفس نعومة الخلية */
+    pointer-events:none;
+}
+
+/* تشغيل النبض حسب اللون */
+.shiftToday.shiftA::after{
+    animation:pulseA 1.4s ease-out infinite;
+}
+.shiftToday.shiftB::after{
+    animation:pulseB 1.4s ease-out infinite;
+}
+.shiftToday.shiftC::after{
+    animation:pulseC 1.4s ease-out infinite;
+}
+
+/* وردي */
+@keyframes pulseA{
+  0%   { box-shadow:0 0 0 0 rgba(253,120,120,.90); }
+  70%  { box-shadow:0 0 0 30px rgba(253,120,120,0); }
+  100% { box-shadow:0 0 0 0 rgba(253,120,120,0); }
+}
+
+/* أخضر */
+@keyframes pulseB{
+  0%   { box-shadow:0 0 0 0 rgba(120,210,140,.90); }
+  70%  { box-shadow:0 0 0 30px rgba(120,210,140,0); }
+  100% { box-shadow:0 0 0 0 rgba(120,210,140,0); }
+}
+
+/* أصفر */
+@keyframes pulseC{
+  0%   { box-shadow:0 0 0 0 rgba(255,210,100,.90); }
+  70%  { box-shadow:0 0 0 30px rgba(255,210,120,0); }
+  100% { box-shadow:0 0 0 0 rgba(255,210,120,0); }
+}
+
 
 </style>
 </head>
@@ -333,7 +386,7 @@ function renderMonthlyShift(year,month,days){
             <div class="shiftDayNumber">${day}</div>
             <div class="monthlyShiftCode">${shiftClass.replace("shift","")}</div>
             `;
-
+            
             if(date.toDateString()===new Date().toDateString())
                 cell.classList.add("shiftToday");
 
