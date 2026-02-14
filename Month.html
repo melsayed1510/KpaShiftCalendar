@@ -36,8 +36,8 @@ margin:auto;
     width:90px;
     height:65px;
     position:relative;
-    font-size:13px;
-    border:1px solid #aaa;
+    font-size:16px;
+    border:2px solid #aaa;
 }
 
 .monthlyShiftTable td.shiftEmptyCell{
@@ -178,25 +178,38 @@ margin:auto;
 ========================= */
 
 /* =========================
-   نبض بحجم الخلية — ناعم
+   تمييز اليوم الحالي
 ========================= */
 
 .shiftToday{
     position:relative;
     overflow:visible;
-    z-index: 1;
+    z-index:1;
 }
 
-/* طبقة النبض */
+/* طبقة الموجة */
 .shiftToday::after{
     content:"";
     position:absolute;
-    inset:0;                 /* نفس حجم الخلية */
-    border-radius:0px;      /* نفس نعومة الخلية */
+    inset:0;
+    border-radius:0;
     pointer-events:none;
 }
 
-/* تشغيل النبض حسب اللون */
+/* طبقة التغميق */
+.shiftToday::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    z-index: -1;
+}
+
+/* =========================
+   تشغيل التأثير حسب لون الشيفت
+========================= */
+
 .shiftToday.shiftA::after{
     animation:pulseA 1.4s ease-out infinite;
 }
@@ -207,25 +220,63 @@ margin:auto;
     animation:pulseC 1.4s ease-out infinite;
 }
 
-/* وردي */
+.shiftToday.shiftA::before{
+    background:#f6bcbc; /* وردي أغمق */
+    animation:darkFade 1.4s ease-out infinite;
+}
+
+.shiftToday.shiftB::before{
+    background:#cfeecd; /* أخضر أغمق */
+    animation:darkFade 1.4s ease-out infinite;
+}
+
+.shiftToday.shiftC::before{
+    background:#ffe49a; /* أصفر أغمق */
+    animation:darkFade 1.4s ease-out infinite;
+}
+
+/* =========================
+   موجة الضوء
+========================= */
+
 @keyframes pulseA{
-  0%   { box-shadow:0 0 0 0 rgba(253,120,120,.90); }
-  70%  { box-shadow:0 0 0 30px rgba(253,120,120,0); }
+  0%   { box-shadow:0 0 0 0 rgba(253,120,120,.85); }
+  70%  { box-shadow:0 0 0 32px rgba(253,120,120,0); }
   100% { box-shadow:0 0 0 0 rgba(253,120,120,0); }
 }
 
-/* أخضر */
 @keyframes pulseB{
-  0%   { box-shadow:0 0 0 0 rgba(120,210,140,.90); }
-  70%  { box-shadow:0 0 0 30px rgba(120,210,140,0); }
+  0%   { box-shadow:0 0 0 0 rgba(120,210,140,.85); }
+  70%  { box-shadow:0 0 0 32px rgba(120,210,140,0); }
   100% { box-shadow:0 0 0 0 rgba(120,210,140,0); }
 }
 
-/* أصفر */
 @keyframes pulseC{
-  0%   { box-shadow:0 0 0 0 rgba(255,210,100,.90); }
-  70%  { box-shadow:0 0 0 30px rgba(255,210,120,0); }
-  100% { box-shadow:0 0 0 0 rgba(255,210,120,0); }
+  0%   { box-shadow:0 0 0 0 rgba(255,210,100,.85); }
+  70%  { box-shadow:0 0 0 32px rgba(255,210,100,0); }
+  100% { box-shadow:0 0 0 0 rgba(255,210,100,0); }
+}
+
+/* =========================
+   تغميق متزامن مع خروج الموجة
+========================= */
+
+@keyframes darkFade{
+
+  /* اللون الطبيعي */
+  0%   { opacity:0; }
+
+  /* بداية التغميق */
+  35%  { opacity:.35; }
+
+  /* الذروة */
+  60%  { opacity:.45; }
+
+  /* الرجوع التدريجي */
+  85%  { opacity:.2; }
+
+  /* العودة للوضع الطبيعي */
+  100% { opacity:0; }
 }
 
 
