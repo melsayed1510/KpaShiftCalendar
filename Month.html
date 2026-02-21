@@ -434,7 +434,11 @@ function renderMonthlyShift(year,month,days){
 
             cell.className=shiftClass;
             cell.innerHTML=`
-            <div class="shiftDayNumber">${day}</div>
+            <div class="shiftDayNumber">
+            ${lang === "ar"
+              ? `${month+1}/${day}`
+              : `${day}/${month+1}`}
+            </div>
             <div class="monthlyShiftCode">${shiftClass.replace("shift","")}</div>
             `;
             
@@ -520,4 +524,5 @@ monthlyShiftMonthSelect.onchange=generateMonthlyShiftSchedule;
 
 </body>
 </html>
+
 
